@@ -31,3 +31,5 @@ dist/
 /app2
 
 test/
+
+qiniu_test

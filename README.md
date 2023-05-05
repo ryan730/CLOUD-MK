@@ -2,84 +2,121 @@
  * @Author: ryan zhuyan730@163.com
  * @Date: 2023-04-20 22:42:01
  * @LastEditors: ryan zhuyan730@163.com
- * @LastEditTime: 2023-05-05 10:56:47
+ * @LastEditTime: 2023-05-05 21:06:52
  * @FilePath: /cloud-mk/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
-# Getting Started with Create React App
+### 开发命令
+```
+npm run dev
+```
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### 打包成文件夹
+```
+// 自动先执行 prepack 然后 pack 
+npm run pack
+```
 
-## Available Scripts
+### 打包成可执行文件
+```
+// 自动先执行 predist 然后 dist 
+npm run dist
+```
 
-In the project directory, you can run:
+### 生成 release 版本, 用于自动更新并发布
+```
+// 自动先执行 prerelease 然后 release 
+npm run release
+```
 
-### `npm start`
+### 查看工程目录结构
+```
+tree -L 2 -I "node_modules"
+```
+```
+├── README.md
+├── app // 反编译asar 文件
+│   ├── build
+│   ├── package.json
+│   └── resource
+├── assets // 应用图标资源
+│   ├── appdmg.png
+│   ├── icon.icns
+│   └── icon.ico
+├── build // webpack 编译的文件
+│   ├── asset-manifest.json
+│   ├── css
+│   ├── favicon.ico
+│   ├── fonts
+│   ├── index.html
+│   ├── logo192.png
+│   ├── logo512.png
+│   ├── main.js // 主进程文件合并
+│   ├── main.js.LICENSE.txt
+│   ├── manifest.json
+│   ├── resource // 其他进程文件
+│   ├── robots.txt
+│   └── static
+├── dist // 可执行文件
+│   ├── builder-debug.yml
+│   ├── builder-effective-config.yaml
+│   ├── mac // asar 所在目录
+│   ├── 七牛云-文档-0.1.0-x64.dmg // 最终文件
+│   ├── 七牛云-文档-0.1.0-x64.dmg.blockmap
+│   ├── 七牛云-文档-0.1.0-x64.zip
+│   └── 七牛云-文档-0.1.0-x64.zip.blockmap
+├── docs
+│   └── f2.md
+├── main.js
+├── package-lock.json
+├── package.json
+├── public
+│   ├── css
+│   ├── favicon.ico
+│   ├── fonts
+│   ├── index.html
+│   ├── logo192.png
+│   ├── logo512.png
+│   ├── manifest.json
+│   └── robots.txt
+├── resource // 其他进程开发文件
+│   └── settings
+├── src
+│   ├── App.css
+│   ├── App.js
+│   ├── App.test.js
+│   ├── components
+│   ├── hooks
+│   ├── index.css
+│   ├── index.js
+│   ├── logo.svg
+│   ├── reportWebVitals.js
+│   ├── setupTests.js
+│   ├── template
+│   └── utils
+├── test // 多继承文件，和本项目无关
+│   ├── compiled.js
+│   ├── implement.js
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── readMe.md
+│   ├── run.js
+│   └── test.js
+├── qiniu_test // 七牛云的测试文件
+│   ├── test.gz
+│   ├── test.js
+│   ├── testServer.js
+│   ├── testStream.js
+│   └── writeFile.js
+├── webpack.config.js
+└── yarn.lock
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-
-
-### asar
+### 七牛云相关
+```
+https://portal.qiniu.com/kodo/bucket/resource-v2?bucketName=cloudmk
+```
+### asar 文件反编译
 ```
 npm i -g asar 
 
