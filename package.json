@@ -1,0 +1,138 @@
+{
+  "name": "cloud-mk",
+  "version": "0.1.0",
+  "private": true,
+  "main": "main.js",
+  "dependencies": {
+    "electron-store": "^4.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "dev": "concurrently \"wait-on http://localhost:3000 && electron .\" \"cross-env BROWSER=none npm start\"",
+    "ele": "electron .",
+    "buildMain": "webpack",
+    "onlyEle": "nodemon --watch main.js --watch src/template/menuTemplate.js --exec \"electron .\"",
+    "pack": "electron-builder --dir",
+    "prepack": "npm run build && npm run buildMain",
+    "dist": "electron-builder",
+    "predist": "npm run build && npm run buildMain",
+    "release": "electron-builder",
+    "prerelease": "npm run build && npm run buildMain"
+  },
+  "author": {
+    "name": "Ryan Zhu",
+    "email": "zhuyan730@163.com"
+  },
+  "publish": [
+    "github"
+  ],
+  "homepage": "./",
+  "build": {
+    "appId": "cloudMK",
+    "productName": "七牛云-文档",
+    "copyright": "Copyright © 2023 ${author}",
+    "extends": null,
+    "files": [
+      "build/**/*",
+      "node_modules/**/*",
+      "resource/settings/**/*",
+      "package.json"
+    ],
+    "extraMetadata": {
+      "main": "./build/main.js"
+    },
+    "directories": {
+      "buildResources": "assets"
+    },
+    "mac": {
+      "category": "public.app-category.productivity",
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "dmg": {
+      "background": "assets/appdmg.png",
+      "icon": "assets/icon.icns",
+      "iconSize": 100,
+      "contents": [
+        {
+          "x": 380,
+          "y": 280,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 110,
+          "y": 280,
+          "type": "file"
+        }
+      ],
+      "window": {
+        "width": 500,
+        "height": 500
+      }
+    },
+    "win": {
+      "target": [
+        "msi",
+        "nsis"
+      ],
+      "icon": "assets/icon.ico",
+      "artifactName": "${productName}-Web-Setup-${version}.${ext}",
+      "publisherName": "Viking Zhang"
+    },
+    "nsis": {
+      "allowToChangeInstallationDirectory": true,
+      "oneClick": false,
+      "perMachine": false
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-brands-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^0.19.0",
+    "bootstrap": "^5.2.3",
+    "classnames": "^2.3.2",
+    "concurrently": "^8.0.1",
+    "copy-webpack-plugin": "^11.0.0",
+    "cross-env": "^7.0.3",
+    "easymde": "^2.18.0",
+    "electron": "^7.1.1",
+    "electron-builder": "^23.0.2",
+    "electron-is-dev": "^2.0.0",
+    "node-sass": "^7.0.3",
+    "prop-types": "^15.8.1",
+    "qiniu": "^7.8.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "react-simplemde-editor": "^4.1.0",
+    "uuid": "^9.0.0",
+    "wait-on": "^7.0.1",
+    "web-vitals": "^2.1.4",
+    "webpack-cli": "^5.0.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
