@@ -23,7 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # pack dist folder
-/dist
 dist/
 
 /app
@@ -32,4 +31,6 @@ dist/
 
 test/
 
-qiniu_test
+qiniu_test/
+
+release

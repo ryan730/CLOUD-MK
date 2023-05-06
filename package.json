@@ -1,6 +1,6 @@
 {
   "name": "cloud-mk",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "private": true,
   "main": "main.js",
   "dependencies": {
@@ -18,20 +18,18 @@
     "prepack": "npm run build && npm run buildMain",
     "dist": "electron-builder",
     "predist": "npm run build && npm run buildMain",
-    "release": "electron-builder",
+    "release1": "cross-env GH_TOKEN=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 electron-builder --publish always",
+    "release": "electron-builder --mac --publish always",
     "prerelease": "npm run build && npm run buildMain"
   },
   "author": {
     "name": "Ryan Zhu",
     "email": "zhuyan730@163.com"
   },
-  "publish": [
-    "github"
-  ],
   "homepage": "./",
   "build": {
     "appId": "cloudMK",
-    "productName": "七牛云-文档",
+    "productName": "七牛云Markdown文档编辑器",
     "copyright": "Copyright © 2023 ${author}",
     "extends": null,
     "files": [
@@ -43,11 +41,17 @@
       "main": "./build/main.js"
     },
     "directories": {
-      "buildResources": "assets"
+      "buildResources": "assets",
+      "output": "release/${version}"
+    },
+    "publish": {
+      "provider": "github",
+      "repo": "CLOUD-MK",
+      "owner": "ryan730"
     },
     "mac": {
       "category": "public.app-category.productivity",
-      "artifactName": "${productName}-${version}-${arch}.${ext}"
+      "artifactName": "qiniu-markdown-editor-${version}-setup-${arch}.${ext}"
     },
     "dmg": {
       "background": "assets/appdmg.png",
@@ -77,8 +81,8 @@
         "nsis"
       ],
       "icon": "assets/icon.ico",
-      "artifactName": "${productName}-Web-Setup-${version}.${ext}",
-      "publisherName": "Viking Zhang"
+      "artifactName": "qiniu-markdown-editor-Web-Setup-${version}.${ext}",
+      "publisherName": "Ryan zhu"
     },
     "nsis": {
       "allowToChangeInstallationDirectory": true,
@@ -110,6 +114,7 @@
     "electron": "^7.1.1",
     "electron-builder": "^23.0.2",
     "electron-is-dev": "^2.0.0",
+    "electron-updater": "^5.3.0",
     "node-sass": "^7.0.3",
     "prop-types": "^15.8.1",
     "qiniu": "^7.8.0",

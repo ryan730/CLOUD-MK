@@ -2,7 +2,7 @@
  * @Author: ryan zhuyan730@163.com
  * @Date: 2023-04-20 23:05:34
  * @LastEditors: ryan zhuyan730@163.com
- * @LastEditTime: 2023-05-05 12:56:21
+ * @LastEditTime: 2023-05-06 18:36:56
  * @FilePath: /cloud-mk/main.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -17,6 +17,8 @@ const QiniuManager = require('./src/utils/QiniuManager');
 const { error } = require('console');
 const fileStore = new Store({ name: 'Files Data' })
 
+const { autoUpdater } = require('electron-updater');
+
 let mainWindow, settingsWindow;
 
 const createManager = () => {
@@ -27,6 +29,95 @@ const createManager = () => {
 }
 
 app.on('ready', function () {
+    console.log('--autoUpdater--', isDev, path.join(app.getAppPath(), "dev-app-update.yml"));
+    // process.env.NODE_ENV === 'development'
+    if (isDev) {
+        // Object.defineProperty(app, 'isPackaged', {
+        //     get() {
+        //         return true;
+        //     }
+        // });
+        //autoUpdater.updateConfigPath = path.join(__dirname, 'dev-app-update.yml');
+        autoUpdater.forceDevUpdateConfig = true;
+        autoUpdater.checkForUpdates().then(updateCheckResult => {
+            ///handleUpdateCheckResult(updateCheckResult);
+            console.log('checkForUpdates::', updateCheckResult);
+        });
+    } else {
+        autoUpdater.checkForUpdatesAndNotify();
+    }
+
+    autoUpdater.autoDownload = false;// 不自动下载
+
+    autoUpdater.on('error', (err) => {
+        dialog.showErrorBox(
+            'Error:',
+            err == null ? 'unknow' : (err.stack)
+        )
+    })
+    autoUpdater.on('checking-for-update', () => {
+        console.log('Checking for update...');
+        dialog.showMessageBox({
+            title: '正在检查当前版本',
+            message: '检查是否有新版本发布.' + `当前环境是:${isDev ? 'dev' : 'product'}`,
+            buttons: ['OK'],
+        })
+    })
+    // 自动更新应用
+    autoUpdater.on('update-available', () => {
+        dialog.showMessageBox({
+            type: 'info',
+            title: '应用有新的版本',
+            message: '有新版本,是否现在更新',
+            buttons: ['Update now', 'Ignore this update'],
+        }).then((buttonIndex) => {
+            console.log('buttonIndex:', buttonIndex);
+            if (buttonIndex.response == 0) {
+                // /Users/ryan/Library/Application\ Support/Caches/cloud-mk-updater
+                autoUpdater.downloadUpdate();
+            }
+        })
+    })
+
+    autoUpdater.on('update-not-available', () => {
+        dialog.showMessageBox({
+            title: '未发现更新',
+            message: '您当前版本已经是最新版本，不需要更新。',
+            buttons: ['OK'],
+        })
+    })
+
+    //
+    // autoUpdater.on('download-progress', (progressData) => {
+    //     let log_message = "Download speed:" + progressData.bytesPerSecond;
+    //     log_message += '\nProgress:' + Math.round(progressData.percent * 100) + '%';
+    //     log_message += '\nTotal Size:' + progressData.transferred + '/' + progressData.totalSize;
+    //     log_message += '\nActual Size:' + progressData.downloadedSize;
+    //     console.log('Downloading...');
+    //     console.log(log_message);
+    //     console.log(`${Math.round(100 * progressData.loaded / progressData.total)}` + '%')
+    // })
+    autoUpdater.on('download-progress', (progressObj) => {
+        let log_message = "Download speed: " + progressObj.bytesPerSecond;
+        log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+        log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+        console.log(log_message);
+        mainWindow.setProgressBar(progressObj.percent);
+    });
+
+    autoUpdater.on('update-downloaded', () => {
+        dialog.showMessageBox({
+            title: '更新已发送',
+            message: '更新发送成功，应用将重启并进行安装。',
+            buttons: ['OK'],
+        }).then(() => {
+            setImmediate(() => {
+                autoUpdater.quitAndInstall();
+                app.quit()
+            })
+        })
+    })
+
     // mainWindow = new BrowserWindow({
     //     width: 1024, height: 680,
     //     webPreferences: {
